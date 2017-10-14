@@ -28,8 +28,12 @@
 <html>
 
 <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+
     <title>lightstone</title>
     <script type="text/javascript" src="libs/three.js"></script>
+    <script type="text/javascript" src="libs/TrackballControls.js"></script>
 
     <script type="text/javascript" src="libs/stats.js"></script>
     <script type="text/javascript" src="libs/dat.gui.js"></script>
@@ -47,6 +51,7 @@
 
     // once everything is loaded, we run our Three.js stuff.
     function init() {
+        var clock = new THREE.Clock();
         var stats = initStats();
 
         // create a scene, that will hold all our elements such as objects, cameras and lights.
@@ -181,11 +186,16 @@
             pointLight.distance = e;
         });
 
+        function setCamControls() {
+
+        }
 
         render();
 
         function render() {
             stats.update();
+            var delta = clock.getDelta();
+
             // rotate the cube around its axes
             cube.rotation.x += controls.rotationSpeed;
             cube.rotation.y += controls.rotationSpeed;
@@ -213,6 +223,8 @@
             }
 
             pointLight.position.copy(sphereLightMesh.position);
+
+            trackballControls.update(delta);
 
             // render using requestAnimationFrame
             requestAnimationFrame(render);
