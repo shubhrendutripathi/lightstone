@@ -26,9 +26,15 @@
 /*************************************************************************
 References:
 
-Meeus, Jean H. Astronomical algorithms. Willmann-Bell, Incorporated, 1998.
+[1] Meeus, Jean H. Astronomical algorithms. Willmann-Bell, Incorporated, 1998.
+[2] Cormen, Thomas H. Introduction to algorithms. MIT press, 2009.
 
 **************************************************************************/
+
+var mathjs = require("./math.min.js");
+var ads = require("./astroal-ds.js");
+
+console.log(ads);
 
 console.log("astroal: start...");
 
@@ -41,7 +47,7 @@ var x, y;
 //x - horizontal, measured positively towards the right
 //y - line of greatest slope of the sundial , positive upwards
 
-var a; //length of the straight stylus
+var a = 5; //inches //length of the straight stylus
 //origin of the orthogonal coordinate system - footprint of the stylus
 
 var H = [-130,-115,-105,-90,-75,-60,-45,-30,-15,
@@ -84,6 +90,18 @@ var delta = [-23.44, -20.15, -11.47, 0, +11.47, +20.15, +23.44];
 
 var P, Q, Nx, Ny;
 
+console.log('ads.constructor is ' + ads.constructor);
+
+var pnt1 = new ads(1,2);
+console.log('pnt1.constructor is ' + pnt1.constructor);
+
+console.log("[[[astroal]]]: " + pnt1.awesome);
+
+var p1 = new astroal_ds.Point(1,2);
+var p2 = new astroal_ds.Point(2,3);
+var p3 = new astroal_ds.Point(3,4);
+var p4 = new astroal_ds.Point(4,5);
+
 function PQNxNy(){
   P = (Math.sin(phi) * Math.cos(z)) - (Math.cos(phi) * Math.sin(z) * Math.cos(D));
   Q = (Math.sin(D)*Math.sin(z)*Math.sin(H)) +
@@ -98,6 +116,30 @@ function PQNxNy(){
 
 //for each hour angle, one obtains a series of points
 //by connecting these points, an hour line is created on the sundial
+
+//////////////////////////////////////////////////////////////////////////////////////////////////from ref[2]
+function segments_intersect(p1, p2, p3, p4){
+  d1 = direction(p3,p4,p1);
+  d2 = direction(p3,p4,p2);
+  d3 = direction(p1,p2,p3);
+  d4 = direction(p1,p2,p4);
+}
+
+function direction(pi, pj, pk){
+    return (mathjs.cross((pk-pi), (pj-pi)));
+}
+
+/*
+function on_segment(pi,pj,pk){
+    if (min(xi,xj) <= xk <= max(xi,xj) and min(yi,jy) <= yk <= max(yi,yj)) {
+      return true;
+    }
+    else {
+        return false;
+    }
+}
+*/
+//////////////////////////////////////////////////////////////////////////////////////////////////from ref[2] - end
 
 console.log(PQNxNy());
 
